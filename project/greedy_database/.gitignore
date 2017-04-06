@@ -1,0 +1,7 @@
+/PG_VERSION
+/pg_hba.conf
+/pg_ident.conf
+/postgresql.auto.conf
+/postgresql.conf
+/postmaster.opts
+/postmaster.pid
