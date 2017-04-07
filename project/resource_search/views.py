@@ -14,12 +14,43 @@ from rest_framework.decorators import api_view
 
 def get_search_data_stored_in_queue(queue):
     combined_result = {}
-    result_1 = queue.get()
-    result_2 = queue.get()
-    result_3 = queue.get()
-    combined_result.update(result_1)
-    combined_result.update(result_2)
-    combined_result.update(result_3)
+    try:
+        result_1 = queue.get(block=False)
+        combined_result.update(result_1)
+        try:
+            result_2 = queue.get(block=False)
+            combined_result.update(result_2)
+            try:
+                result_3 = queue.get(block=False)
+                combined_result.update(result_3)
+            except Exception:
+                pass
+        except Exception:
+            pass
+    except Exception:
+        pass
+
+    # check that google, duckduckgo and twitter, all exist
+
+    combined_result = fill_default_value(combined_result)
+
+    # result_2 = queue.get(block=False)
+    # result_3 = queue.get(block=False)
+    # combined_result.update(result_1)
+    # combined_result.update(result_2)
+    # combined_result.update(result_3)
+    return combined_result
+
+
+def fill_default_value(combined_result):
+    keys = ['google', 'duckduckgo', 'twitter']
+
+    for key in keys:
+        try:
+            combined_result[key]
+        except KeyError:
+            combined_result[key] = "Didn't respond within one second"
+
     return combined_result
 
 @api_view(('GET',))
@@ -38,12 +69,11 @@ def search_in_parallel(request):
     p2.start()
     p3.start()
     # Join Process
-    p1.join()
-    p2.join()
-    p3.join()
+    p1.join(timeout=60)
+    p2.join(timeout=60)
+    p3.join(timeout=60)
 
     response_data = get_search_data_stored_in_queue(queue)
-
     final_response_data = {
         'query': query_term,
         'results': response_data
