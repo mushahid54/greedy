@@ -12,3 +12,7 @@ DATABASES = {
         'PORT': '5432',  # you can change this like: DATABASES['default']['PORT'] = 'some_other_port'
     }
 }
+
+
+BROKER_URL = 'redis://localhost:6379'  # TODO: on production, this has to be on RabbitMQ
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'

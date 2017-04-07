@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from resource_search.views import ResourceSearchAPIView
+from resource_search.views import search_in_parallel
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', ResourceSearchAPIView.as_view(), name='resource_search')
+    url(r'^$', search_in_parallel, name='resource_search')
 ]
