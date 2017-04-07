@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from resource_search.views import ResourceSearchAPIView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', ResourceSearchAPIView.as_view(), name='resource_search')
 ]
