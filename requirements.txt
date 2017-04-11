@@ -6,6 +6,7 @@ djangorestframework==3.6.2
 kombu==4.0.2
 psycopg2==2.7.1
 pytz==2017.2
+gunicorn==19.7.0
 redis==2.10.5
 requests==2.13.0
 vine==1.1.3
